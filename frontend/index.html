@@ -2,85 +2,436 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Practical business compliance guidance for Kenyan businesses."
+    >
+
     <title>Biashara Compliance Assistant</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header class="site-header">
-        <div class="shell">
-            <p class="eyebrow">Kenya business guidance</p>
-            <h1>Biashara Compliance Assistant</h1>
-            <p class="intro">
-                Turn your business type and location into a clear,
-                practical compliance checklist.
+        <nav class="topbar shell">
+            <a
+                class="brand"
+                href="#top"
+                aria-label="Biashara Compliance Assistant home"
+            >
+                <span class="brand-mark" aria-hidden="true">
+                    B
+                </span>
+
+                <span class="brand-copy">
+                    <strong>Biashara</strong>
+                    <small>Compliance Assistant</small>
+                </span>
+            </a>
+
+            <p class="independent-note">
+                Independent business guidance for Kenya
             </p>
+        </nav>
+
+        <div class="hero shell" id="top">
+            <div class="hero-copy">
+                <p class="eyebrow">
+                    Prepare before you apply
+                </p>
+
+                <h1>
+                    Know what your business needs before you queue,
+                    pay or submit.
+                </h1>
+
+                <p class="intro">
+                    Choose your county and type of business. We will
+                    organise the likely permits, documents and follow-up
+                    checks into one practical list.
+                </p>
+
+                <div
+                    class="hero-points"
+                    aria-label="Service benefits"
+                >
+                    <span>Clear document list</span>
+                    <span>County-specific guidance</span>
+                    <span>Official-source reminders</span>
+                </div>
+            </div>
+
+            <aside
+                class="hero-note"
+                aria-label="How the service works"
+            >
+                <p class="note-number">01</p>
+
+                <h2>Start with the basics</h2>
+
+                <p>
+                    Tell us where the business operates and what it
+                    does. No account is needed for the first checklist.
+                </p>
+            </aside>
         </div>
     </header>
 
-    <main class="shell main-grid">
-        <section class="card form-card">
-            <div class="section-heading">
-                <p class="step">Step 1</p>
-                <h2>Describe the business</h2>
+    <main>
+        <section
+            class="process-strip"
+            aria-label="Three-step process"
+        >
+            <div class="shell process-grid">
+                <article>
+                    <span>1</span>
+
+                    <div>
+                        <strong>Describe the business</strong>
+
+                        <p>
+                            Select its county and activity.
+                        </p>
+                    </div>
+                </article>
+
+                <article>
+                    <span>2</span>
+
+                    <div>
+                        <strong>Review the checklist</strong>
+
+                        <p>
+                            See permits and documents together.
+                        </p>
+                    </div>
+                </article>
+
+                <article>
+                    <span>3</span>
+
+                    <div>
+                        <strong>Verify before paying</strong>
+
+                        <p>
+                            Use the responsible official authority.
+                        </p>
+                    </div>
+                </article>
             </div>
-
-            <form id="checklistForm">
-                <label>
-                    Business name
-                    <input id="businessName" type="text" maxlength="120" placeholder="Example: Sawaya General Shop">
-                </label>
-
-                <label>
-                    County
-                    <select id="county" required>
-                        <option value="">Loading counties...</option>
-                    </select>
-                </label>
-
-                <label>
-                    Business type
-                    <select id="businessType" required>
-                        <option value="">Loading business types...</option>
-                    </select>
-                </label>
-
-                <button id="generateButton" type="submit">Generate checklist</button>
-            </form>
-
-            <p id="formStatus" class="status" aria-live="polite"></p>
         </section>
 
-        <section class="card output-card">
-            <div class="section-heading">
-                <p class="step">Step 2</p>
-                <h2>Your checklist</h2>
-            </div>
+        <section class="shell workspace">
+            <section
+                class="panel form-panel"
+                aria-labelledby="business-details-title"
+            >
+                <div class="panel-heading">
+                    <div>
+                        <p class="section-kicker">
+                            Business details
+                        </p>
 
-            <div id="emptyState" class="empty-state">
-                <p>Select a county and business type to see the first version of your compliance checklist.</p>
-            </div>
+                        <h2 id="business-details-title">
+                            Build your checklist
+                        </h2>
+                    </div>
 
-            <div id="result" hidden>
-                <div class="result-summary">
-                    <div><p class="summary-label">Business</p><strong id="resultBusiness">—</strong></div>
-                    <div><p class="summary-label">Location</p><strong id="resultLocation">—</strong></div>
-                    <div><p class="summary-label">Type</p><strong id="resultType">—</strong></div>
+                    <span class="step-label">
+                        Step 1 of 2
+                    </span>
                 </div>
 
-                <div id="checklistItems" class="checklist"></div>
+                <form id="checklistForm" novalidate>
+                    <label for="businessName">
+                        <span>
+                            Business name
+                            <small>(optional)</small>
+                        </span>
 
-                <aside class="disclaimer">
-                    <strong>Important</strong>
-                    <p id="disclaimerText"></p>
-                </aside>
+                        <input
+                            id="businessName"
+                            name="businessName"
+                            type="text"
+                            maxlength="200"
+                            autocomplete="organization"
+                            placeholder="For example: Nairobi Central Hardware"
+                        >
+                    </label>
+
+                    <label for="county">
+                        <span>County</span>
+
+                        <select
+                            id="county"
+                            name="county"
+                            required
+                        >
+                            <option value="">
+                                Loading counties...
+                            </option>
+                        </select>
+                    </label>
+
+                    <label for="businessType">
+                        <span>Business type</span>
+
+                        <select
+                            id="businessType"
+                            name="businessType"
+                            required
+                        >
+                            <option value="">
+                                Loading business types...
+                            </option>
+                        </select>
+                    </label>
+
+                    <fieldset class="quick-choices">
+                        <legend>Popular choices</legend>
+
+                        <div class="choice-row">
+                            <button
+                                type="button"
+                                class="choice-chip"
+                                data-business-type="shop"
+                            >
+                                Retail shop
+                            </button>
+
+                            <button
+                                type="button"
+                                class="choice-chip"
+                                data-business-type="restaurant"
+                            >
+                                Food business
+                            </button>
+
+                            <button
+                                type="button"
+                                class="choice-chip"
+                                data-business-type="salon"
+                            >
+                                Salon
+                            </button>
+
+                            <button
+                                type="button"
+                                class="choice-chip"
+                                data-business-type="workshop"
+                            >
+                                Workshop
+                            </button>
+                        </div>
+                    </fieldset>
+
+                    <button
+                        id="generateButton"
+                        class="primary-button"
+                        type="submit"
+                    >
+                        <span>Prepare my checklist</span>
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <div
+                    id="formStatus"
+                    class="status"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+                <p class="privacy-line">
+                    This first version does not require an account
+                    and does not save the form details.
+                </p>
+            </section>
+
+            <section
+                class="panel result-panel"
+                aria-labelledby="checklist-title"
+            >
+                <div class="panel-heading result-heading">
+                    <div>
+                        <p class="section-kicker">
+                            Your result
+                        </p>
+
+                        <h2 id="checklist-title">
+                            Compliance checklist
+                        </h2>
+                    </div>
+
+                    <span class="step-label">
+                        Step 2 of 2
+                    </span>
+                </div>
+
+                <div id="emptyState" class="empty-state">
+                    <div
+                        class="empty-illustration"
+                        aria-hidden="true"
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <h3>
+                        Your checklist will appear here
+                    </h3>
+
+                    <p>
+                        Complete the form to organise the likely
+                        requirements for your business.
+                    </p>
+                </div>
+
+                <div id="result" hidden>
+                    <div class="result-toolbar">
+                        <p>
+                            <strong id="checklistCount">0</strong>
+                            items to review
+                        </p>
+
+                        <div class="toolbar-actions">
+                            <button
+                                id="printButton"
+                                class="text-button"
+                                type="button"
+                            >
+                                Print checklist
+                            </button>
+
+                            <button
+                                id="resetButton"
+                                class="text-button"
+                                type="button"
+                            >
+                                Start again
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-summary">
+                        <div>
+                            <p class="summary-label">
+                                Business
+                            </p>
+
+                            <strong id="resultBusiness">
+                                —
+                            </strong>
+                        </div>
+
+                        <div>
+                            <p class="summary-label">
+                                County
+                            </p>
+
+                            <strong id="resultLocation">
+                                —
+                            </strong>
+                        </div>
+
+                        <div>
+                            <p class="summary-label">
+                                Activity
+                            </p>
+
+                            <strong id="resultType">
+                                —
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div
+                        id="checklistItems"
+                        class="checklist"
+                    ></div>
+
+                    <aside class="disclaimer">
+                        <span
+                            class="disclaimer-icon"
+                            aria-hidden="true"
+                        >
+                            i
+                        </span>
+
+                        <div>
+                            <strong>
+                                Before you make a payment
+                            </strong>
+
+                            <p id="disclaimerText"></p>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+        </section>
+
+        <section class="trust-section">
+            <div class="shell trust-grid">
+                <div>
+                    <p class="section-kicker">
+                        Built for practical use
+                    </p>
+
+                    <h2>
+                        Useful guidance without pretending to be
+                        the government.
+                    </h2>
+                </div>
+
+                <p>
+                    Every requirement should show where it applies
+                    and whether it still needs confirmation. The service
+                    is designed to help a business prepare—not to replace
+                    Nairobi City County, KRA or another responsible
+                    regulator.
+                </p>
             </div>
         </section>
     </main>
 
     <footer class="site-footer">
-        <div class="shell">
-            <p>MVP version: guidance only. Official requirements and charges must be verified before payment.</p>
+        <div class="shell footer-grid">
+            <div>
+                <strong>
+                    Biashara Compliance Assistant
+                </strong>
+
+                <p>
+                    Independent guidance for better-prepared
+                    Kenyan businesses.
+                </p>
+            </div>
+
+            <p>
+                Always verify current fees, forms and deadlines
+                with the responsible authority.
+            </p>
         </div>
     </footer>
 
