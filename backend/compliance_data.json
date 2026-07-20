@@ -1,0 +1,193 @@
+{
+  "disclaimer": "This checklist is an initial planning guide. Requirements, fees, forms and renewal dates can change. Confirm every item with the relevant county office, KRA or national regulator before making a payment.",
+  "general_requirements": [
+    {
+      "title": "Business registration details",
+      "category": "Business identity",
+      "description": "Keep the registered business or company name, registration number, owner or director details and physical address ready.",
+      "documents": [
+        "Registration certificate or business-name certificate",
+        "Owner or director identification",
+        "Business contact and physical-location details"
+      ],
+      "renewal_note": "Update whenever ownership, contacts or location changes.",
+      "fee_note": "No fee estimate is shown until the official source is verified.",
+      "verification": "Needs official verification"
+    },
+    {
+      "title": "KRA tax profile",
+      "category": "Tax",
+      "description": "Confirm that the business has the appropriate KRA PIN and understands its filing and invoicing obligations.",
+      "documents": [
+        "KRA PIN certificate",
+        "Tax-registration details",
+        "Applicable invoicing or electronic-tax records"
+      ],
+      "renewal_note": "Tax filing frequency depends on the business tax obligations.",
+      "fee_note": "Tax amounts are not calculated in this MVP.",
+      "verification": "Needs official verification"
+    }
+  ],
+  "business_types": {
+    "shop": {
+      "name": "Retail shop",
+      "requirements": [
+        {
+          "title": "Single business permit",
+          "category": "County permit",
+          "description": "A county business permit is commonly required for a shop operating from a physical location.",
+          "documents": [
+            "Business registration details",
+            "Owner identification",
+            "Premises location and contact details"
+          ],
+          "renewal_note": "Usually reviewed on a recurring county cycle.",
+          "fee_note": "Fee depends on county classification and business size.",
+          "verification": "Needs county verification"
+        }
+      ]
+    },
+    "salon": {
+      "name": "Salon or barbershop",
+      "requirements": [
+        {
+          "title": "Public-health and hygiene review",
+          "category": "Health",
+          "description": "The premises may require inspection for cleanliness, sanitation, waste handling and customer safety.",
+          "documents": [
+            "Premises details",
+            "Staff and hygiene information",
+            "Inspection records where applicable"
+          ],
+          "renewal_note": "Inspection or certification timing depends on county practice.",
+          "fee_note": "Confirm the current county inspection and certificate charges.",
+          "verification": "Needs county verification"
+        }
+      ]
+    },
+    "restaurant": {
+      "name": "Restaurant or food business",
+      "requirements": [
+        {
+          "title": "Food-premises and public-health requirements",
+          "category": "Health",
+          "description": "Food businesses generally need to demonstrate safe food handling, clean premises, sanitation and suitable storage.",
+          "documents": [
+            "Premises inspection records",
+            "Food-handler documentation where applicable",
+            "Waste and sanitation arrangements"
+          ],
+          "renewal_note": "Check the current inspection and certificate cycle.",
+          "fee_note": "Exact charges must come from the responsible county office.",
+          "verification": "Needs county verification"
+        },
+        {
+          "title": "Fire-safety review",
+          "category": "Safety",
+          "description": "The premises may need fire-safety equipment and inspection depending on size, occupancy and county requirements.",
+          "documents": [
+            "Premises layout",
+            "Fire-equipment details",
+            "Inspection or service records"
+          ],
+          "renewal_note": "Review whenever equipment or premises arrangements change.",
+          "fee_note": "No fee estimate until verified.",
+          "verification": "Needs county verification"
+        }
+      ]
+    },
+    "bar": {
+      "name": "Bar or alcoholic-drinks outlet",
+      "requirements": [
+        {
+          "title": "Alcoholic-drinks licence",
+          "category": "Sector licence",
+          "description": "Alcohol sales normally require a sector-specific county licence, subject to local eligibility, location and inspection rules.",
+          "documents": [
+            "Business and owner details",
+            "Premises details",
+            "Health and safety documentation",
+            "Any additional county application documents"
+          ],
+          "renewal_note": "Applications and renewal windows are set by the county.",
+          "fee_note": "Do not rely on an estimate; verify the gazetted fee and licence class.",
+          "verification": "Needs county and legal verification"
+        }
+      ]
+    },
+    "workshop": {
+      "name": "Motor-vehicle or technical workshop",
+      "requirements": [
+        {
+          "title": "Workplace, waste and safety requirements",
+          "category": "Safety and environment",
+          "description": "A workshop should plan for safe equipment use, waste-oil handling, fire protection and suitable premises.",
+          "documents": [
+            "Premises and equipment details",
+            "Waste-handling arrangements",
+            "Safety equipment records"
+          ],
+          "renewal_note": "Review after major equipment or premises changes.",
+          "fee_note": "Applicable approvals depend on the activity and location.",
+          "verification": "Needs county and regulator verification"
+        }
+      ]
+    },
+    "landlord": {
+      "name": "Landlord or rental-property operator",
+      "requirements": [
+        {
+          "title": "Property and tax records",
+          "category": "Property compliance",
+          "description": "Maintain ownership, rental-income, tenant and property records required for tax and local compliance.",
+          "documents": [
+            "Property ownership or management documents",
+            "Rental records",
+            "Applicable tax records"
+          ],
+          "renewal_note": "Update records as tenants, income or ownership changes.",
+          "fee_note": "The MVP does not calculate tax or property charges.",
+          "verification": "Needs official verification"
+        }
+      ]
+    },
+    "professional_services": {
+      "name": "Professional-services firm",
+      "requirements": [
+        {
+          "title": "Professional registration where applicable",
+          "category": "Professional regulation",
+          "description": "Some professional services require individual or firm registration with a sector regulator.",
+          "documents": [
+            "Professional certificates",
+            "Practising licence where applicable",
+            "Firm-registration documents"
+          ],
+          "renewal_note": "Renewal depends on the relevant professional regulator.",
+          "fee_note": "Confirm directly with the professional body.",
+          "verification": "Needs regulator verification"
+        }
+      ]
+    }
+  },
+  "counties": {
+    "Embu": {
+      "requirements": [
+        {
+          "title": "Confirm Embu County permit classification",
+          "category": "County-specific",
+          "description": "Confirm the correct business category, premises location and current permit requirements with Embu County before payment.",
+          "documents": [
+            "Business activity description",
+            "Ward and physical location",
+            "Previous permit where applicable"
+          ],
+          "renewal_note": "Use the current Embu County licensing calendar.",
+          "fee_note": "Fee intentionally withheld until verified against an official schedule.",
+          "verification": "Needs Embu County verification",
+          "applies_to": []
+        }
+      ]
+    }
+  }
+}
