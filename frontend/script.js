@@ -5,28 +5,59 @@ const API_URL =
         : "https://biashara-compliance-assistant-api.onrender.com";
 
 
-const checklistForm = document.getElementById("checklistForm");
-const businessNameInput = document.getElementById("businessName");
-const countySelect = document.getElementById("county");
-const businessTypeInput = document.getElementById("businessType");
-const businessTypeOptions = document.getElementById(
-    "businessTypeOptions"
-);
-const generateButton = document.getElementById("generateButton");
-const formStatus = document.getElementById("formStatus");
+const checklistForm =
+    document.getElementById("checklistForm");
 
-const emptyState = document.getElementById("emptyState");
-const result = document.getElementById("result");
-const checklistItems = document.getElementById("checklistItems");
-const checklistCount = document.getElementById("checklistCount");
+const businessNameInput =
+    document.getElementById("businessName");
 
-const resultBusiness = document.getElementById("resultBusiness");
-const resultLocation = document.getElementById("resultLocation");
-const resultType = document.getElementById("resultType");
-const disclaimerText = document.getElementById("disclaimerText");
+const countySelect =
+    document.getElementById("county");
 
-const printButton = document.getElementById("printButton");
-const resetButton = document.getElementById("resetButton");
+const businessTypeInput =
+    document.getElementById("businessType");
+
+const businessTypeOptions =
+    document.getElementById("businessTypeOptions");
+
+const generateButton =
+    document.getElementById("generateButton");
+
+const formStatus =
+    document.getElementById("formStatus");
+
+const emptyState =
+    document.getElementById("emptyState");
+
+const result =
+    document.getElementById("result");
+
+const checklistItems =
+    document.getElementById("checklistItems");
+
+const checklistCount =
+    document.getElementById("checklistCount");
+
+const resultBusiness =
+    document.getElementById("resultBusiness");
+
+const resultLocation =
+    document.getElementById("resultLocation");
+
+const resultType =
+    document.getElementById("resultType");
+
+const disclaimerText =
+    document.getElementById("disclaimerText");
+
+const customBusinessNotice =
+    document.getElementById("customBusinessNotice");
+
+const printButton =
+    document.getElementById("printButton");
+
+const resetButton =
+    document.getElementById("resetButton");
 
 const choiceChips = Array.from(
     document.querySelectorAll(".choice-chip")
@@ -77,13 +108,16 @@ function setFormLoading(isLoading) {
 
 
 async function requestJson(path, options = {}) {
-    const response = await fetch(`${API_URL}${path}`, {
-        ...options,
-        headers: {
-            Accept: "application/json",
-            ...(options.headers || {})
+    const response = await fetch(
+        `${API_URL}${path}`,
+        {
+            ...options,
+            headers: {
+                Accept: "application/json",
+                ...(options.headers || {})
+            }
         }
-    });
+    );
 
     const data = await response
         .json()
@@ -122,7 +156,9 @@ function createBusinessTypeOptions(businessTypes) {
         .map(
             (businessType) => `
                 <option value="${escapeHtml(businessType.name)}">
-                    ${escapeHtml(businessType.name)}
+                    ${escapeHtml(
+                        businessType.description || ""
+                    )}
                 </option>
             `
         )
@@ -132,7 +168,8 @@ function createBusinessTypeOptions(businessTypes) {
 
 function selectDefaultCounty(counties) {
     const nairobi = counties.find(
-        (county) => county.toLowerCase() === "nairobi"
+        (county) =>
+            county.toLowerCase() === "nairobi"
     );
 
     if (nairobi) {
@@ -193,13 +230,17 @@ async function loadOptions() {
             "The free server may be starting. Refresh the page shortly."
         );
 
-        console.error("Options loading error:", error);
+        console.error(
+            "Options loading error:",
+            error
+        );
     }
 }
 
 
 function findKnownBusinessType(value) {
-    const normalizedValue = value.trim().toLowerCase();
+    const normalizedValue =
+        value.trim().toLowerCase();
 
     return availableBusinessTypes.find(
         (businessType) =>
@@ -213,19 +254,16 @@ function findKnownBusinessType(value) {
 
 function updateActiveChoice() {
     const enteredValue =
-        businessTypeInput.value.trim().toLowerCase();
+        businessTypeInput.value.trim();
 
     const knownBusinessType =
         findKnownBusinessType(enteredValue);
 
     choiceChips.forEach((chip) => {
-        const chipSlug =
-            chip.dataset.businessType.toLowerCase();
-
         chip.classList.toggle(
             "is-active",
-            knownBusinessType?.id.toLowerCase() ===
-                chipSlug
+            knownBusinessType?.id ===
+                chip.dataset.businessType
         );
     });
 }
@@ -331,7 +369,8 @@ function createVerifiedDate(item) {
         return "";
     }
 
-    const date = new Date(item.last_verified_date);
+    const date =
+        new Date(item.last_verified_date);
 
     const formattedDate =
         Number.isNaN(date.getTime())
@@ -358,7 +397,7 @@ function createChecklistItem(item, index) {
     return `
         <article
             class="checklist-item"
-            style="animation-delay: ${index * 70}ms"
+            style="animation-delay: ${index * 90}ms"
         >
             <h3>
                 ${escapeHtml(item.title)}
@@ -405,16 +444,33 @@ function renderEmptyChecklist() {
     checklistItems.innerHTML = `
         <div class="empty-state">
             <h3>
-                General guidance is available
+                No detailed requirements are listed yet
             </h3>
 
             <p>
-                This manually entered business category does not yet
-                have sector-specific requirements. The checklist shows
-                the applicable general and county requirements.
+                The database does not currently contain an active
+                requirement for this selection.
             </p>
         </div>
     `;
+}
+
+
+function renderCustomBusinessNotice(data) {
+    if (
+        !data.business_type_is_custom ||
+        !data.custom_business_message
+    ) {
+        customBusinessNotice.hidden = true;
+        customBusinessNotice.textContent = "";
+
+        return;
+    }
+
+    customBusinessNotice.textContent =
+        data.custom_business_message;
+
+    customBusinessNotice.hidden = false;
 }
 
 
@@ -432,18 +488,23 @@ function renderChecklist(data) {
         data.disclaimer ||
         "Confirm every requirement with the responsible authority.";
 
-    const checklist = Array.isArray(data.checklist)
-        ? data.checklist
-        : [];
+    const checklist =
+        Array.isArray(data.checklist)
+            ? data.checklist
+            : [];
 
-    checklistCount.textContent = checklist.length;
+    checklistCount.textContent =
+        checklist.length;
+
+    renderCustomBusinessNotice(data);
 
     if (checklist.length === 0) {
         renderEmptyChecklist();
     } else {
-        checklistItems.innerHTML = checklist
-            .map(createChecklistItem)
-            .join("");
+        checklistItems.innerHTML =
+            checklist
+                .map(createChecklistItem)
+                .join("");
     }
 
     emptyState.hidden = true;
@@ -498,7 +559,8 @@ async function generateChecklist(event) {
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type":
+                        "application/json"
                 },
                 body: JSON.stringify({
                     business_name:
@@ -539,7 +601,9 @@ function resetApplication() {
     checklistForm.reset();
 
     const nairobiOption =
-        Array.from(countySelect.options).find(
+        Array.from(
+            countySelect.options
+        ).find(
             (option) =>
                 option.value.toLowerCase() ===
                 "nairobi"
@@ -557,6 +621,7 @@ function resetApplication() {
 
     result.hidden = true;
     emptyState.hidden = false;
+
     checklistItems.innerHTML = "";
     checklistCount.textContent = "0";
 
@@ -564,6 +629,9 @@ function resetApplication() {
     resultLocation.textContent = "—";
     resultType.textContent = "—";
     disclaimerText.textContent = "";
+
+    customBusinessNotice.hidden = true;
+    customBusinessNotice.textContent = "";
 
     businessNameInput.focus();
 
@@ -584,6 +652,86 @@ function printChecklist() {
     }
 
     window.print();
+}
+
+
+function initializePageAnimations() {
+    const animatedElements =
+        document.querySelectorAll(
+            [
+                ".process-grid article",
+                ".form-panel",
+                ".result-panel",
+                ".trust-grid > *",
+                ".footer-grid > *"
+            ].join(",")
+        );
+
+    animatedElements.forEach(
+        (element, index) => {
+            element.classList.add(
+                "reveal-on-scroll"
+            );
+
+            const delay =
+                (index % 4) * 100;
+
+            element.style.setProperty(
+                "--reveal-delay",
+                `${delay}ms`
+            );
+        }
+    );
+
+    const reducedMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+    if (
+        reducedMotion ||
+        !("IntersectionObserver" in window)
+    ) {
+        animatedElements.forEach(
+            (element) => {
+                element.classList.add(
+                    "is-visible"
+                );
+            }
+        );
+
+        return;
+    }
+
+    const observer =
+        new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+
+                    entry.target.classList.add(
+                        "is-visible"
+                    );
+
+                    observer.unobserve(
+                        entry.target
+                    );
+                });
+            },
+            {
+                threshold: 0.12,
+                rootMargin:
+                    "0px 0px -35px 0px"
+            }
+        );
+
+    animatedElements.forEach(
+        (element) => {
+            observer.observe(element);
+        }
+    );
 }
 
 
@@ -620,4 +768,5 @@ resetButton.addEventListener(
 );
 
 
+initializePageAnimations();
 loadOptions();

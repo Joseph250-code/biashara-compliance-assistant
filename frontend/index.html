@@ -15,19 +15,6 @@
 
     <title>Biashara Compliance Assistant</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -66,9 +53,9 @@
                 </h1>
 
                 <p class="intro">
-                    Choose your county and type of business. We will
-                    organise the likely permits, documents and follow-up
-                    checks into one practical list.
+                    Choose your county and describe your business.
+                    We will organise the likely permits, documents
+                    and follow-up checks into one practical list.
                 </p>
 
                 <div
@@ -76,7 +63,7 @@
                     aria-label="Service benefits"
                 >
                     <span>Clear document list</span>
-                    <span>County-specific guidance</span>
+                    <span>County guidance</span>
                     <span>Official-source reminders</span>
                 </div>
             </div>
@@ -91,7 +78,8 @@
 
                 <p>
                     Tell us where the business operates and what it
-                    does. No account is needed for the first checklist.
+                    does. No account is needed to prepare the first
+                    checklist.
                 </p>
             </aside>
         </div>
@@ -110,7 +98,7 @@
                         <strong>Describe the business</strong>
 
                         <p>
-                            Select its county and activity.
+                            Select the county and enter the activity.
                         </p>
                     </div>
                 </article>
@@ -122,7 +110,7 @@
                         <strong>Review the checklist</strong>
 
                         <p>
-                            See permits and documents together.
+                            See likely permits and documents together.
                         </p>
                     </div>
                 </article>
@@ -134,7 +122,7 @@
                         <strong>Verify before paying</strong>
 
                         <p>
-                            Use the responsible official authority.
+                            Confirm details with the official authority.
                         </p>
                     </div>
                 </article>
@@ -175,7 +163,7 @@
                             type="text"
                             maxlength="200"
                             autocomplete="organization"
-                            placeholder="For example: Nairobi Central Hardware"
+                            placeholder="For example: Central Hardware"
                         >
                     </label>
 
@@ -194,25 +182,26 @@
                     </label>
 
                     <label for="businessType">
-    <span>Business type</span>
+                        <span>Business type</span>
 
-    <input
-        id="businessType"
-        name="businessType"
-        type="text"
-        list="businessTypeOptions"
-        maxlength="150"
-        autocomplete="off"
-        placeholder="Select or type a business type"
-        required
-    >
+                        <input
+                            id="businessType"
+                            name="businessType"
+                            type="text"
+                            list="businessTypeOptions"
+                            maxlength="150"
+                            autocomplete="off"
+                            placeholder="Select or type a business activity"
+                            required
+                        >
 
-    <datalist id="businessTypeOptions"></datalist>
+                        <datalist id="businessTypeOptions"></datalist>
 
-    <small class="field-help">
-        Choose a suggested category or type another business activity.
-    </small>
-</label>
+                        <small class="field-help">
+                            Select a suggested category or type your
+                            own business activity.
+                        </small>
+                    </label>
 
                     <fieldset class="quick-choices">
                         <legend>Popular choices</legend>
@@ -270,8 +259,8 @@
                 ></div>
 
                 <p class="privacy-line">
-                    This first version does not require an account
-                    and does not save the form details.
+                    This version does not require an account and does
+                    not save the details entered in this form.
                 </p>
             </section>
 
@@ -340,6 +329,12 @@
                             </button>
                         </div>
                     </div>
+
+                    <div
+                        id="customBusinessNotice"
+                        class="custom-business-notice"
+                        hidden
+                    ></div>
 
                     <div class="result-summary">
                         <div>
@@ -412,11 +407,10 @@
                 </div>
 
                 <p>
-                    Every requirement should show where it applies
-                    and whether it still needs confirmation. The service
-                    is designed to help a business prepare—not to replace
-                    Nairobi City County, KRA or another responsible
-                    regulator.
+                    Each requirement indicates where it applies and
+                    whether it still needs confirmation. The service
+                    helps a business prepare, but it does not replace
+                    a county government, KRA or another regulator.
                 </p>
             </div>
         </section>
