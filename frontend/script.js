@@ -8,7 +8,10 @@ const API_URL =
 const checklistForm = document.getElementById("checklistForm");
 const businessNameInput = document.getElementById("businessName");
 const countySelect = document.getElementById("county");
-const businessTypeSelect = document.getElementById("businessType");
+const businessTypeInput = document.getElementById("businessType");
+const businessTypeOptions = document.getElementById(
+    "businessTypeOptions"
+);
 const generateButton = document.getElementById("generateButton");
 const formStatus = document.getElementById("formStatus");
 
@@ -28,6 +31,8 @@ const resetButton = document.getElementById("resetButton");
 const choiceChips = Array.from(
     document.querySelectorAll(".choice-chip")
 );
+
+let availableBusinessTypes = [];
 
 
 function escapeHtml(value) {
@@ -54,7 +59,7 @@ function clearStatus() {
 
 function setFormLoading(isLoading) {
     countySelect.disabled = isLoading;
-    businessTypeSelect.disabled = isLoading;
+    businessTypeInput.disabled = isLoading;
     generateButton.disabled = isLoading;
 
     if (isLoading) {
@@ -113,19 +118,15 @@ function createCountyOptions(counties) {
 
 
 function createBusinessTypeOptions(businessTypes) {
-    return `
-        <option value="">Select a business type</option>
-
-        ${businessTypes
-            .map(
-                (businessType) => `
-                    <option value="${escapeHtml(businessType.id)}">
-                        ${escapeHtml(businessType.name)}
-                    </option>
-                `
-            )
-            .join("")}
-    `;
+    return businessTypes
+        .map(
+            (businessType) => `
+                <option value="${escapeHtml(businessType.name)}">
+                    ${escapeHtml(businessType.name)}
+                </option>
+            `
+        )
+        .join("");
 }
 
 
@@ -142,11 +143,11 @@ function selectDefaultCounty(counties) {
 
 async function loadOptions() {
     countySelect.disabled = true;
-    businessTypeSelect.disabled = true;
+    businessTypeInput.disabled = true;
     generateButton.disabled = true;
 
     setStatus(
-        "Loading the available counties and business types...",
+        "Loading counties and business categories...",
         "loading"
     );
 
@@ -157,19 +158,24 @@ async function loadOptions() {
             ? data.counties
             : [];
 
-        const businessTypes = Array.isArray(data.business_types)
+        availableBusinessTypes = Array.isArray(
+            data.business_types
+        )
             ? data.business_types
             : [];
 
-        countySelect.innerHTML = createCountyOptions(counties);
+        countySelect.innerHTML =
+            createCountyOptions(counties);
 
-        businessTypeSelect.innerHTML =
-            createBusinessTypeOptions(businessTypes);
+        businessTypeOptions.innerHTML =
+            createBusinessTypeOptions(
+                availableBusinessTypes
+            );
 
         selectDefaultCounty(counties);
 
         countySelect.disabled = false;
-        businessTypeSelect.disabled = false;
+        businessTypeInput.disabled = false;
         generateButton.disabled = false;
 
         clearStatus();
@@ -180,11 +186,7 @@ async function loadOptions() {
             </option>
         `;
 
-        businessTypeSelect.innerHTML = `
-            <option value="">
-                Business types unavailable
-            </option>
-        `;
+        businessTypeOptions.innerHTML = "";
 
         setStatus(
             "The service could not load the compliance information. " +
@@ -196,26 +198,50 @@ async function loadOptions() {
 }
 
 
+function findKnownBusinessType(value) {
+    const normalizedValue = value.trim().toLowerCase();
+
+    return availableBusinessTypes.find(
+        (businessType) =>
+            businessType.name.toLowerCase() ===
+                normalizedValue ||
+            businessType.id.toLowerCase() ===
+                normalizedValue
+    );
+}
+
+
 function updateActiveChoice() {
-    const selectedBusinessType = businessTypeSelect.value;
+    const enteredValue =
+        businessTypeInput.value.trim().toLowerCase();
+
+    const knownBusinessType =
+        findKnownBusinessType(enteredValue);
 
     choiceChips.forEach((chip) => {
+        const chipSlug =
+            chip.dataset.businessType.toLowerCase();
+
         chip.classList.toggle(
             "is-active",
-            chip.dataset.businessType === selectedBusinessType
+            knownBusinessType?.id.toLowerCase() ===
+                chipSlug
         );
     });
 }
 
 
 function handleChoiceClick(event) {
-    const selectedType = event.currentTarget.dataset.businessType;
+    const selectedSlug =
+        event.currentTarget.dataset.businessType;
 
-    const matchingOption = Array.from(
-        businessTypeSelect.options
-    ).find((option) => option.value === selectedType);
+    const matchingBusinessType =
+        availableBusinessTypes.find(
+            (businessType) =>
+                businessType.id === selectedSlug
+        );
 
-    if (!matchingOption) {
+    if (!matchingBusinessType) {
         setStatus(
             "That business category is not available yet."
         );
@@ -223,16 +249,34 @@ function handleChoiceClick(event) {
         return;
     }
 
-    businessTypeSelect.value = selectedType;
+    businessTypeInput.value =
+        matchingBusinessType.name;
+
     updateActiveChoice();
     clearStatus();
 
-    businessTypeSelect.focus();
+    businessTypeInput.focus();
+}
+
+
+function getBusinessTypeForRequest() {
+    const enteredValue =
+        businessTypeInput.value.trim();
+
+    const knownBusinessType =
+        findKnownBusinessType(enteredValue);
+
+    return knownBusinessType
+        ? knownBusinessType.id
+        : enteredValue;
 }
 
 
 function createDocumentsList(documents) {
-    if (!Array.isArray(documents) || documents.length === 0) {
+    if (
+        !Array.isArray(documents) ||
+        documents.length === 0
+    ) {
         return `
             <p class="item-note">
                 No specific supporting documents have been listed yet.
@@ -263,7 +307,8 @@ function createSourceLink(item) {
         return "";
     }
 
-    const sourceUrl = escapeHtml(item.official_source_url);
+    const sourceUrl =
+        escapeHtml(item.official_source_url);
 
     return `
         <p class="item-note">
@@ -288,16 +333,17 @@ function createVerifiedDate(item) {
 
     const date = new Date(item.last_verified_date);
 
-    const formattedDate = Number.isNaN(date.getTime())
-        ? item.last_verified_date
-        : new Intl.DateTimeFormat(
-            "en-KE",
-            {
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            }
-        ).format(date);
+    const formattedDate =
+        Number.isNaN(date.getTime())
+            ? item.last_verified_date
+            : new Intl.DateTimeFormat(
+                "en-KE",
+                {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }
+            ).format(date);
 
     return `
         <p class="item-note">
@@ -358,11 +404,14 @@ function createChecklistItem(item, index) {
 function renderEmptyChecklist() {
     checklistItems.innerHTML = `
         <div class="empty-state">
-            <h3>No requirements are listed yet</h3>
+            <h3>
+                General guidance is available
+            </h3>
 
             <p>
-                This business selection does not currently have
-                any active compliance requirements in the database.
+                This manually entered business category does not yet
+                have sector-specific requirements. The checklist shows
+                the applicable general and county requirements.
             </p>
         </div>
     `;
@@ -409,15 +458,21 @@ function renderChecklist(data) {
 
 function validateForm() {
     if (!countySelect.value) {
-        setStatus("Select the county where the business operates.");
+        setStatus(
+            "Select the county where the business operates."
+        );
+
         countySelect.focus();
 
         return false;
     }
 
-    if (!businessTypeSelect.value) {
-        setStatus("Select the type of business.");
-        businessTypeSelect.focus();
+    if (!businessTypeInput.value.trim()) {
+        setStatus(
+            "Select or type the business activity."
+        );
+
+        businessTypeInput.focus();
 
         return false;
     }
@@ -453,7 +508,7 @@ async function generateChecklist(event) {
                         countySelect.value,
 
                     business_type:
-                        businessTypeSelect.value
+                        getBusinessTypeForRequest()
                 })
             }
         );
@@ -483,15 +538,19 @@ async function generateChecklist(event) {
 function resetApplication() {
     checklistForm.reset();
 
-    if (
-        Array.from(countySelect.options).some(
-            (option) => option.value === "Nairobi"
-        )
-    ) {
-        countySelect.value = "Nairobi";
+    const nairobiOption =
+        Array.from(countySelect.options).find(
+            (option) =>
+                option.value.toLowerCase() ===
+                "nairobi"
+        );
+
+    if (nairobiOption) {
+        countySelect.value =
+            nairobiOption.value;
     }
 
-    businessTypeSelect.value = "";
+    businessTypeInput.value = "";
 
     updateActiveChoice();
     clearStatus();
@@ -533,7 +592,12 @@ checklistForm.addEventListener(
     generateChecklist
 );
 
-businessTypeSelect.addEventListener(
+businessTypeInput.addEventListener(
+    "input",
+    updateActiveChoice
+);
+
+businessTypeInput.addEventListener(
     "change",
     updateActiveChoice
 );

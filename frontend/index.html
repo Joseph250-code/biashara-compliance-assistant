@@ -194,18 +194,25 @@
                     </label>
 
                     <label for="businessType">
-                        <span>Business type</span>
+    <span>Business type</span>
 
-                        <select
-                            id="businessType"
-                            name="businessType"
-                            required
-                        >
-                            <option value="">
-                                Loading business types...
-                            </option>
-                        </select>
-                    </label>
+    <input
+        id="businessType"
+        name="businessType"
+        type="text"
+        list="businessTypeOptions"
+        maxlength="150"
+        autocomplete="off"
+        placeholder="Select or type a business type"
+        required
+    >
+
+    <datalist id="businessTypeOptions"></datalist>
+
+    <small class="field-help">
+        Choose a suggested category or type another business activity.
+    </small>
+</label>
 
                     <fieldset class="quick-choices">
                         <legend>Popular choices</legend>
